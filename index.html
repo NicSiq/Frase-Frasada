@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Letreiro Animado</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #0f172a; 
+            font-family: 'Cursive', 'Brush Script MT', serif;
+            margin: 0;
+        }
+        #container-letreiro {
+            width: 80vw;
+            height: 100px;
+            padding: 20px;
+            margin: 30px;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #e0e0e0, #a0c4ff);
+            border: 2px solid #ffffff;
+            position: relative;
+            overflow: hidden;
+            box-sizing: border-box;
+            border-radius: 10px;
+            box-shadow: 0 0 15px 5px rgba(255, 255, 255, 0.3); 
+        }
+        #letreiro {
+            font-size: 64px;
+            font-weight: bold;
+            color: #0f172a; 
+            position: absolute;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+    <div id="container-letreiro">
+        <div id="letreiro">
+            Se a vida te der urânio-235, faça uma Bomba Nuclear
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const container = document.getElementById("container-letreiro");
+            const letreiro = document.getElementById("letreiro");
+            let velocidade = 2.5; 
+            let posX = 0; 
+            let direcao = 1; 
+            function animarLetreiro() {
+                const containerWidth = container.clientWidth;
+                const containerPaddingLeft = parseFloat(window.getComputedStyle(container).paddingLeft);
+                const containerPaddingRight = parseFloat(window.getComputedStyle(container).paddingRight);
+                const areaUtilWidth = containerWidth - containerPaddingLeft - containerPaddingRight;
+                const letreiroWidth = letreiro.offsetWidth;
+                posX += direcao * velocidade;
+                if (posX + letreiroWidth > areaUtilWidth) {
+                    direcao = -1; 
+                    posX = areaUtilWidth - letreiroWidth;
+                }
+                if (posX < 0) {
+                    direcao = 1;
+                    posX = 0;
+                }
+                letreiro.style.transform = `translateX(${posX}px)`;
+                requestAnimationFrame(animarLetreiro);
+            }
+            requestAnimationFrame(animarLetreiro);
+        });
+    </script>
+</body>
+</html>
